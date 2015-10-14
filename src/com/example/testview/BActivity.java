@@ -31,9 +31,8 @@ public class BActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		// EventBus.post("show_tag", "¹þ¹þ");
-		// EventBus.post("exit");
+		EventBus.post("exit");
 
-		EventBus.post("show");
 	}
 
 }

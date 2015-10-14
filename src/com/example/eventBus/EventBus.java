@@ -13,6 +13,15 @@ public class EventBus {
 	public static void unregister(Object activity) {
 		// TODO Auto-generated method stub
 		Class<Object> clazz = (Class<Object>) activity.getClass();
+
+		parseEvent(activity, clazz);
+
+	}
+
+	private static void clearEvent(Object activity, Class<Object> clazz) {
+		if (clazz == null) {
+			return;
+		}
 		for (Method m : clazz.getDeclaredMethods()) {
 			Event anno = m.getAnnotation(Event.class);
 			if (anno != null) {
@@ -30,11 +39,20 @@ public class EventBus {
 				}
 			}
 		}
-
+		Class superClazz = clazz.getSuperclass();
+		clearEvent(activity, superClazz);
 	}
 
 	public static void register(Object activity) {
 		Class<Object> clazz = (Class<Object>) activity.getClass();
+		parseEvent(activity, clazz);
+	}
+
+	private static void parseEvent(Object activity, Class<Object> clazz) {
+		if (clazz == null) {
+			return;
+		}
+
 		for (Method m : clazz.getDeclaredMethods()) {
 			Event anno = m.getAnnotation(Event.class);
 			if (anno != null) {
@@ -45,6 +63,9 @@ public class EventBus {
 				eventList.add(infor);
 			}
 		}
+		Class superClazz = clazz.getSuperclass();
+		parseEvent(activity, superClazz);
+
 	}
 
 	private static EventList getEventList(String tag) {
